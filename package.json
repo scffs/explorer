@@ -1,0 +1,29 @@
+{
+  "name": "diary",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "lint": "biome lint . --apply",
+    "format": "biome format . --write",
+    "checkAll": "biome check . --apply-unsafe"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^1.5.2",
+    "@vkontakte/icons": "^2.88.0",
+    "@vkontakte/vkui": "^5.10.0",
+    "preact": "^10.16.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.4.1",
+    "@preact/preset-vite": "^2.5.0",
+    "@tauri-apps/cli": "^1.5.7",
+    "terser": "^5.26.0",
+    "typescript": "^5.0.2",
+    "vite": "^5.0.8"
+  }
+}
