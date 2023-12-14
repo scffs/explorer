@@ -1,4 +1,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 use diary::{__cmd__get_disk_info, get_disk_info};
 
 fn main() {

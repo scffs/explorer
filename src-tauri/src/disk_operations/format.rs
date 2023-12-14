@@ -12,7 +12,7 @@ use std::cmp;
 /// # Возвращаемое значение
 ///
 /// Возвращает строку с читаемым форматом.
-fn format_bytes(bytes: u64, decimals: usize) -> String {
+pub(crate) fn format_bytes(bytes: u64, decimals: usize) -> String {
   if bytes == 0 {
     return String::from("0 Bytes");
   }
@@ -35,7 +35,7 @@ fn format_bytes(bytes: u64, decimals: usize) -> String {
 /// # Аргументы
 ///
 /// * `system_info` - Структура SystemInfo, содержащая информацию о системе и дисках.
-pub fn convert_to_readable_format(system_info: &mut SystemInfo) {
+pub(crate) fn convert_to_readable_format(system_info: &mut SystemInfo) {
   for disk in &mut system_info.disks {
     disk.formatted_available_space = Some(format_bytes(disk.available_space, 2));
     disk.formatted_total_space = Some(format_bytes(disk.total_space, 2));
