@@ -1,13 +1,20 @@
+// @ts-nocheck Из-за async, который необходим для таури, TS сходит с ума
+import * as path from 'node:path'
 import preact from '@preact/preset-vite'
 import { defineConfig, splitVendorChunkPlugin } from 'vite'
 
 // https://vitejs.dev/config/
-//
 export default defineConfig(async () => ({
   plugins: [preact(), splitVendorChunkPlugin()],
   resolve: {
     alias: [
-      { find: /^@vkontakte\/vkui$/, replacement: '@vkontakte/vkui/dist/cssm' }
+      { find: /^@vkontakte\/vkui$/, replacement: '@vkontakte/vkui/dist/cssm' },
+      { find: /^@utils$/, replacement: path.resolve(__dirname, './src/utils') },
+      {
+        find: /^@components$/,
+        replacement: path.resolve(__dirname, './src/components')
+      },
+      { find: /^@hooks$/, replacement: path.resolve(__dirname, './src/hooks') }
     ]
   },
   build: {
