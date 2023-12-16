@@ -1,4 +1,4 @@
-interface Disk {
+export interface IDisk {
   file_system: number[]
   mount_point: string
   available_space: number
@@ -9,14 +9,22 @@ interface Disk {
   formatted_total_space?: string
 }
 
-interface ReturnSystem {
+export interface IReturnSystem {
   name?: string | null
   kernel_version?: string | null
   os_version?: string | null
   host_name?: string | null
 }
 
-interface SystemInfo {
-  system: ReturnSystem
-  disks: Disk[]
+export interface ISystemInfo {
+  system: IReturnSystem
+  disks: IDisk[]
+}
+
+export type DirectoryEntityType = 'File' | 'Directory'
+
+export interface DirectoryChild {
+  type: DirectoryEntityType
+  name: string
+  path: string
 }

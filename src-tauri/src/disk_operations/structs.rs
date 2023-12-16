@@ -1,5 +1,5 @@
+use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
-use serde::Serialize;
 
 #[derive(Serialize)]
 pub(crate) struct Disk {
@@ -25,4 +25,10 @@ pub(crate) struct ReturnSystem {
 pub struct SystemInfo {
   pub(crate) system: ReturnSystem,
   pub(crate) disks: Vec<Disk>,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
+pub struct DirectoryChild {
+  pub name: String,
+  pub path: String,
 }
