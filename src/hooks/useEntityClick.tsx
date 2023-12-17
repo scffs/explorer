@@ -1,11 +1,11 @@
 import { openDirectory } from '@utils'
 import { setData } from '../store'
+import { pushData } from '../store/useHistoryStore.ts'
 
 export const useEntityClick = async (path: string) => {
-  console.log('useEntityClick', path)
+  pushData(path)
   const data = await openDirectory(path)
-  console.log(data)
-  setData(data, path)
+  setData(data)
 
   return data
 }

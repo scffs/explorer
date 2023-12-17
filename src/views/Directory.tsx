@@ -1,51 +1,44 @@
 import { useEntityClick } from '@hooks'
 import { Icon20FolderOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
-import { Group, Header, PanelHeader, SimpleCell } from '@vkontakte/vkui'
-import { useEffect } from 'preact/compat'
+import { Button, Group, Header, PanelHeader, SimpleCell } from '@vkontakte/vkui'
 import { routes } from '../routes'
-import { getData, setBefore, setData } from '../store'
+import { getData } from '../store'
+import {
+  getCurrentEntry,
+  getHistoryData,
+  goBack
+} from '../store/useHistoryStore.ts'
 
 const Directory = () => {
   const navigator = useRouteNavigator()
-  const { data, before } = getData()
+  const { data } = getData()
 
-  const handleClick = async (path: string) => {
-    await useEntityClick(path)
-    setBefore(path)
+  async function handleClick(filePath: string) {
+    console.log(filePath)
+    const data = await useEntityClick(filePath)
+    console.log(data)
     await navigator.push(routes.default_root.default_view.directory_panel)
   }
 
-  useEffect(() => {
-    const handlePopstate = async () => {
-      if (!before) {
-        return
-      }
-
-      const pathParts = before.split('\\')
-      console.log('parts', pathParts)
-      pathParts.pop()
-      const newPath = pathParts.join('\\')
-      console.log('new', newPath)
-      setBefore(newPath)
-      const data = await useEntityClick(newPath)
-      console.log(data, 'data')
-      setData(data, newPath)
+  const handlePopstate = async () => {
+    console.log('popstate')
+    const currentIndex = getHistoryData().currentIndex
+    if (currentIndex > 0) {
+      goBack()
+      await navigator.back()
+      const currDir = getCurrentEntry()
+      console.log(currDir)
+      const data = await useEntityClick(currDir ?? '')
+      console.log('POP DATA', data)
     }
-
-    window.addEventListener('popstate', handlePopstate)
-
-    return () => {
-      window.removeEventListener('popstate', handlePopstate)
-    }
-  }, [])
-
-  console.log('before', before)
+  }
 
   return (
     <>
-      <PanelHeader>Директория {before}</PanelHeader>
+      <PanelHeader>Директория</PanelHeader>
       <Group header={<Header mode='secondary'>AA</Header>}>
+        <Button onClick={handlePopstate}>НАЗАД</Button>
         {data.map((item) => (
           <SimpleCell
             onClick={() => handleClick(item.path)}

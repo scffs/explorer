@@ -6,14 +6,12 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 
 type State = {
   data: DirectoryChild[]
-  before: string | null
 }
 
 export const useDirectoryDataStore = create<State>()(
   persist(
     () => ({
-      data: [],
-      before: null
+      data: []
     }),
     {
       name: 'directory-storage',
@@ -23,7 +21,5 @@ export const useDirectoryDataStore = create<State>()(
 )
 
 export const getData = () => useDirectoryDataStore.getState()
-export const setData = (data: DirectoryChild[], before: string) =>
-  useDirectoryDataStore.setState({ data, before })
-export const setBefore = (before: string) =>
-  useDirectoryDataStore.setState({ before })
+export const setData = (data: DirectoryChild[]) =>
+  useDirectoryDataStore.setState({ data })

@@ -19,7 +19,6 @@ const initial = {
 
 const Root: FC = () => {
   const navigator = useRouteNavigator()
-
   const [systemInfo, setSystemInfo] = useState<ISystemInfo>(initial)
 
   useEffect(() => {
