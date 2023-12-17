@@ -3,12 +3,7 @@ import { Icon20FolderOutline } from '@vkontakte/icons'
 import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
 import { Button, Group, Header, PanelHeader, SimpleCell } from '@vkontakte/vkui'
 import { routes } from '../routes'
-import { getData } from '../store'
-import {
-  getCurrentEntry,
-  getHistoryData,
-  goBack
-} from '../store/useHistoryStore.ts'
+import { getCurrentEntry, getData, getHistoryData, goBack } from '../store'
 
 const Directory = () => {
   const navigator = useRouteNavigator()
