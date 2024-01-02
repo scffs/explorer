@@ -1,6 +1,6 @@
 import { IReturnSystem } from '@types'
 import { Icon56ComputerOutline } from '@vkontakte/icons'
-import { Avatar, Gradient, Text, Title } from '@vkontakte/vkui'
+import { Avatar, Div, Text, Title } from '@vkontakte/vkui'
 import { FC } from 'preact/compat'
 
 const styles = {
@@ -19,7 +19,7 @@ interface ComputerInfoProps {
 
 export const ComputerInfo: FC<ComputerInfoProps> = ({ system }) => {
   return (
-    <Gradient mode='tint' to='top' style={styles}>
+    <Div style={styles}>
       {/*// @ts-ignore*/}
       <Avatar size={96}>
         <Icon56ComputerOutline width={70} height={70} />
@@ -36,6 +36,6 @@ export const ComputerInfo: FC<ComputerInfoProps> = ({ system }) => {
       >
         {system.name} {system.os_version}
       </Text>
-    </Gradient>
+    </Div>
   )
 }

@@ -1,24 +1,28 @@
 import { ComputerInfo, Disk } from '@components'
-import { useSpinner } from '@hooks'
+import { useEntityClick, useSpinner } from '@hooks'
 import { ISystemInfo } from '@types'
-import { getSystemInfo, openDirectory } from '@utils'
-import { Group, Header, Panel, PanelHeader, View } from '@vkontakte/vkui'
+import { getSystemInfo } from '@utils'
+import { useRouteNavigator } from '@vkontakte/vk-mini-apps-router'
+import { Group, Header, PanelHeader } from '@vkontakte/vkui'
 import { FC, useEffect, useState } from 'preact/compat'
+import { routes } from '../routes'
+
+const initial = {
+  system: {
+    name: null,
+    kernel_version: null,
+    os_version: null,
+    host_name: null
+  },
+  disks: []
+}
 
 const Root: FC = () => {
-  const [systemInfo, setSystemInfo] = useState<ISystemInfo>({
-    system: {
-      name: null,
-      kernel_version: null,
-      os_version: null,
-      host_name: null
-    },
-    disks: []
-  })
+  const navigator = useRouteNavigator()
+  const [systemInfo, setSystemInfo] = useState<ISystemInfo>(initial)
 
   useEffect(() => {
     getSystemInfo().then((data) => {
-      console.log(data)
       setSystemInfo(data)
     })
   }, [])
@@ -28,27 +32,25 @@ const Root: FC = () => {
   if (!system.name) return useSpinner()
 
   const handleDiskClick = async (path: string) => {
-    const data = await openDirectory(path)
-    console.log(data)
+    await useEntityClick(path)
+    await navigator.push(routes.default_root.default_view.directory_panel)
   }
 
   return (
-    <View activePanel='main'>
-      <Panel id='main'>
-        <PanelHeader>Проводник</PanelHeader>
-        <ComputerInfo system={system} />
-        <Group>
-          <Group mode='plain' header={<Header>Диски и другие носители</Header>}>
-            {disks.map((disk) => (
-              <Disk
-                disk={disk}
-                onClick={() => handleDiskClick(disk.mount_point)}
-              />
-            ))}
-          </Group>
+    <>
+      <PanelHeader>Проводник</PanelHeader>
+      <ComputerInfo system={system} />
+      <Group>
+        <Group mode='plain' header={<Header>Диски и другие носители</Header>}>
+          {disks.map((disk) => (
+            <Disk
+              disk={disk}
+              onClick={() => handleDiskClick(disk.mount_point)}
+            />
+          ))}
         </Group>
-      </Panel>
-    </View>
+      </Group>
+    </>
   )
 }
 

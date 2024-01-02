@@ -27,8 +27,26 @@ pub struct SystemInfo {
   pub(crate) disks: Vec<Disk>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum FileType {
+  File,
+  Directory,
+  Unknown,
+}
+
 #[derive(Serialize, Deserialize, Clone)]
 pub struct DirectoryChild {
   pub name: String,
   pub path: String,
+  pub file_type: FileType,
+}
+
+impl DirectoryChild {
+  pub fn new(name: String, path: String, file_type: FileType) -> Self {
+    Self {
+      name,
+      path,
+      file_type,
+    }
+  }
 }
